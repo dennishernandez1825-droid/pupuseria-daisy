@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080a0c">
+    <meta name="description" content="Pupusas salvadoreñas hechas al comal. Ordena en línea y paga en efectivo; tarjeta disponible solo como demostración.">
+    <title>Pupuseria Deysi</title>
+
+    <!-- Fuentes modernas y legibles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600;700&family=Fraunces:opsz,wght@9..144,600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           🎨 VARIABLES DE DISEÑO (COLORES Y ESTILOS)
+           ========================================================================== */
+        :root {
+            --blue: #0875ad;
+            --blue-deep: #8fd4f3;
+            --blue-hover: #05618f;
+            --blue-pale: #1a3442;
+            --red: #d84c3f;
+            --maize: #f2b642;
+            --ink: #f0f4f8;
+            --muted: #a0adb8;
+            --paper: #080a0c;
+            --white: #111519;
+            --line: #303941;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 12px 40px rgba(8, 117, 173, 0.15);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --font-body: "DM Sans", sans-serif;
+            --font-display: "Fraunces", Georgia, serif;
+        }
+
+        :root[data-theme="light"] {
+            --blue: #0875ad;
+            --blue-deep: #0a4a6e;
+            --blue-hover: #0a4a6e;
+            --blue-pale: #e0f2f7;
+            --ink: #1a2e35;
+            --muted: #5a6b72;
+            --paper: #fffaf0;
+            --white: #ffffff;
+            --line: #e6ddd0;
+            --shadow: 0 8px 30px rgba(26, 46, 53, 0.08);
+        }
+
+        /* ==========================================================================
+           RESET Y ESTILOS BASE
+           ========================================================================== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            color: var(--ink);
+            background-color: var(--paper);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        img { max-width: 100%; height: auto; display: block; }
+        button, input, select { font-family: inherit; font-size: inherit; }
+        button { cursor: pointer; border: none; background: none; }
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+        a:hover { color: var(--blue); }
+
+        /* ==========================================================================
+           COMPONENTES REUTILIZABLES
+           ========================================================================== */
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 12px 24px; border-radius: 999px; font-weight: 700; font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+        .btn-primary { background: var(--blue); color: white; }
+        .btn-primary:hover { background: var(--blue-hover); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+        .btn-secondary { background: var(--white); color: var(--blue); border: 2px solid var(--line); }
+        .btn-secondary:hover { border-color: var(--blue); background: var(--blue-pale); }
+        .btn-sm { padding: 8px 16px; font-size: 0.85rem; }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: var(--blue-deep);
+            margin-bottom: 0.5rem;
+        }
+        .section-subtitle { color: var(--muted); font-size: 1rem; margin-bottom: 2rem; }
+
+        /* ==========================================================================
+           HEADER
+           ========================================================================== */
+        .topbar {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(8, 10, 12, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--line);
+            height: 72px;
+        }
+        :root[data-theme="light"] .topbar { background: rgba(255, 250, 240, 0.85); }
+        
+        .topbar-inner {
+            height: 100%; display: flex; align-items: center; justify-content: space-between;
+        }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand-icon {
+            width: 44px; height: 44px; background: var(--blue-pale); border-radius: 50%;
+            display: grid; place-items: center; overflow: hidden; flex: 0 0 auto;
+        }
+        .brand-icon img { width: 100%; height: 100%; object-fit: cover; }
+        .brand-text strong { display: block; font-family: var(--font-display); font-size: 1.25rem; color: var(--blue-deep); line-height: 1.1; }
+        .brand-text small { font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; }
+
+        .nav-actions { display: flex; align-items: center; gap: 12px; }
+        .icon-btn {
+            width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
+            background: var(--white); border: 1px solid var(--line); color: var(--ink);
+            transition: all 0.2s; position: relative;
+        }
+        .icon-btn:hover { border-color: var(--blue); color: var(--blue); }
+        .cart-badge {
+            position: absolute; top: -4px; right: -4px;
+            background: var(--red); color: white; font-size: 0.7rem; font-weight: 800;
+            width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center;
+            border: 2px solid var(--paper);
+        }
+
+        /* ==========================================================================
+           HERO SECTION
+           ========================================================================== */
+        .hero {
+            padding: 4rem 0;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+            min-height: 80vh;
+        }
+        .hero-content { animation: fadeInUp 0.8s ease-out; }
+        .eyebrow {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: var(--blue-pale); color: var(--blue);
+            padding: 6px 14px; border-radius: 999px;
+            font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+            font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.05; color: var(--blue-deep); margin-bottom: 1.5rem;
+        }
+        .hero h1 span { color: var(--red); font-style: italic; }
+        .hero p { font-size: 1.1rem; color: var(--muted); max-width: 450px; margin-bottom: 2rem; }
+        
+        .hero-visual { position: relative; animation: fadeInUp 0.8s 0.2s ease-out both; }
+        .hero-img-wrapper {
+            position: relative; border-radius: 24px; overflow: hidden;
+            box-shadow: var(--shadow-hover); aspect-ratio: 4/3;
+        }
+        .hero-img-wrapper img, .hero-img-wrapper video { width: 100%; height: 100%; object-fit: cover; }
+        .hero-badge {
+            position: absolute; bottom: 24px; right: 24px;
+            background: var(--red); color: white; padding: 16px 20px;
+            border-radius: 16px; text-align: center; box-shadow: var(--shadow);
+            transform: rotate(-3deg);
+        }
+        .hero-badge strong { display: block; font-family: var(--font-display); font-size: 1.5rem; line-height: 1; }
+        .hero-badge small { font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; }
+
+        /* ==========================================================================
+           MENÚ Y PRODUCTOS
+           ========================================================================== */
+        .menu-section { padding: 4rem 0; background: var(--white); border-radius: 40px 40px 0 0; margin-top: -2rem; position: relative; }
+        .menu-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+        .menu-heading .section-subtitle { margin-bottom: 0; }
+        .menu-kicker { display: block; color: var(--red); font-size: 0.75rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
+        
+        .search-bar {
+            display: flex; gap: 12px; margin-bottom: 1.5rem; max-width: 560px;
+        }
+        .search-bar input {
+            flex: 1; padding: 14px 20px; border: 2px solid var(--line); border-radius: 999px;
+            background: var(--paper); color: var(--ink); outline: none; transition: border 0.2s;
+        }
+        .search-bar input:focus { border-color: var(--blue); }
+
+        .menu-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px;
+        }
+
+        .product-card {
+            background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+            overflow: hidden; transition: all 0.25s ease; display: flex; flex-direction: column;
+        }
+        .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: var(--blue); }
+        
+        .card-img { position: relative; aspect-ratio: 16/9; overflow: hidden; background: var(--blue-pale); }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+        .card-img img.image-contain { object-fit: contain; }
+        .card-img img.image-ayote { object-position: center 80%; }
+        .product-card:hover .card-img img { transform: scale(1.05); }
+        .product-card:hover .card-img img.image-contain { transform: none; }
+        .card-img-placeholder { width: 100%; height: 100%; display: grid; place-items: center; font-size: 3rem; }
+        
+        .card-badge {
+            position: absolute; top: 12px; left: 12px;
+            background: var(--white); backdrop-filter: blur(4px);
+            padding: 6px 11px; border-radius: 999px; font-size: 0.7rem; font-weight: 800; color: var(--blue-deep);
+        }
+
+        .card-body { padding: 18px; flex: 1; display: flex; flex-direction: column; }
+        .card-body h3 { font-family: var(--font-display); font-size: 1.2rem; color: var(--blue-deep); margin-bottom: 5px; }
+        .card-body p { font-size: 0.86rem; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+        .ingredient-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+        .ingredient-chip { padding: 4px 9px; border-radius: 999px; background: var(--blue-pale); color: var(--blue-deep); font-size: 0.7rem; font-weight: 700; }
+        .card-made { color: var(--muted); font-size: 0.75rem; font-weight: 600; margin-bottom: 14px; }
+        
+        .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+        .price { font-size: 1.3rem; font-weight: 800; color: var(--ink); }
+        
+        /* Opciones de producto */
+        .product-options { margin-bottom: 16px; padding: 12px; background: var(--white); border-radius: var(--radius-sm); border: 1px solid var(--line); }
+        .option-label { font-size: 0.75rem; font-weight: 700; color: var(--muted); margin-bottom: 8px; display: block; text-transform: uppercase; }
+        
+        .masa-select {
+            width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 8px;
+            background: var(--paper); color: var(--ink); font-weight: 600; outline: none;
+        }
+        .custom-ingredients {
+            border: 0; min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;
+        }
+        .custom-ingredient {
+            display: flex; align-items: center; gap: 8px; padding: 9px;
+            border: 1px solid var(--line); border-radius: 8px; color: var(--ink);
+            font-size: 0.85rem; cursor: pointer;
+        }
+        .custom-ingredient input { accent-color: var(--blue); }
+        .custom-price-note { color: var(--muted); font-size: 0.8rem; margin: 8px 0 14px; }
+        
+        /* ==========================================================================
+           CARRITO (SIDEBAR / MODAL)
+           ========================================================================== */
+        .cart-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200;
+            opacity: 0; visibility: hidden; transition: all 0.3s;
+        }
+        .cart-overlay.open { opacity: 1; visibility: visible; }
+        
+        .cart-panel {
+            position: fixed; top: 0; right: 0; width: 100%; max-width: 420px; height: 100vh;
+            background: var(--white); z-index: 201; transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column; box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+        }
+        .cart-overlay.open .cart-panel { transform: translateX(0); }
+
+        .cart-header {
+            padding: 24px; border-bottom: 1px solid var(--line);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .cart-header h2 { font-family: var(--font-display); font-size: 1.5rem; color: var(--blue-deep); }
+        
+        .cart-items { flex: 1; overflow-y: auto; padding: 24px; }
+        .cart-empty { text-align: center; padding: 40px 20px; color: var(--muted); }
+        .cart-empty span { font-size: 3rem; display: block; margin-bottom: 16px; }
+        
+        .cart-item {
+            display: flex; gap: 16px; padding-bottom: 16px; margin-bottom: 16px;
+            border-bottom: 1px dashed var(--line);
+        }
+        .cart-item-img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; }
+        .cart-item-img.image-contain { object-fit: contain; background: var(--blue-pale); }
+        .cart-item-placeholder { width: 60px; height: 60px; border-radius: 10px; display: grid; place-items: center; background: var(--blue-pale); font-size: 1.6rem; }
+        .cart-item-details { flex: 1; }
+        .cart-item-name { font-weight: 700; color: var(--ink); font-size: 0.95rem; }
+        .cart-item-options { font-size: 0.75rem; color: var(--muted); margin: 4px 0; }
+        .cart-item-controls { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+        .qty-btn {
+            width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line);
+            display: grid; place-items: center; font-weight: 700; color: var(--blue);
+        }
+        .qty-btn:hover { background: var(--blue-pale); }
+        .cart-item-price { font-weight: 800; color: var(--ink); font-size: 1rem; }
+
+        .cart-footer { padding: 24px; background: var(--paper); border-top: 1px solid var(--line); }
+        .cart-eta { margin-bottom: 8px; color: var(--blue-deep); font-size: 0.9rem; font-weight: 700; }
+        .cart-eta-button { color: var(--blue); font-size: 0.8rem; font-weight: 700; text-decoration: underline; margin-bottom: 12px; }
+        .cart-total-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; color: var(--muted); }
+        .cart-total-row.final { font-size: 1.25rem; font-weight: 800; color: var(--ink); margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--line); }
+        .cart-total-row.final span:last-child { color: var(--blue); }
+
+        /* ==========================================================================
+           MODALES (Checkout, Ticket)
+           ========================================================================== */
+        .modal {
+            position: fixed; inset: 0; z-index: 300; display: grid; place-items: center;
+            background: rgba(10, 20, 30, 0.6); backdrop-filter: blur(4px);
+            opacity: 0; visibility: hidden; transition: all 0.3s;
+        }
+        .modal.open { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: var(--white); width: 90%; max-width: 500px; max-height: 90vh;
+            border-radius: 24px; padding: 32px; overflow-y: auto; position: relative;
+            transform: scale(0.95); transition: transform 0.3s;
+        }
+        .modal.open .modal-content { transform: scale(1); }
+        .modal-close {
+            position: absolute; top: 16px; right: 16px; width: 36px; height: 36px;
+            border-radius: 50%; background: var(--paper); display: grid; place-items: center;
+            font-size: 1.2rem; color: var(--muted);
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 14px; border: 2px solid var(--line); border-radius: 12px;
+            background: var(--paper); color: var(--ink); outline: none; transition: border 0.2s;
+        }
+        .form-group input:focus { border-color: var(--blue); }
+
+        .payment-options { display: grid; gap: 12px; }
+        .payment-option {
+            display: flex; align-items: center; gap: 12px; padding: 16px;
+            border: 2px solid var(--line); border-radius: 12px; cursor: pointer; transition: all 0.2s;
+        }
+        .payment-option:hover { border-color: var(--blue); }
+        .payment-option input { display: none; }
+        .payment-option.selected { border-color: var(--blue); background: var(--blue-pale); }
+        .payment-icon { font-size: 1.5rem; }
+        .card-demo-fields {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px;
+            border: 1px solid var(--line); border-radius: 12px; padding: 16px;
+            margin-top: 12px; min-width: 0;
+        }
+        .card-demo-fields[hidden] { display: none; }
+        .card-demo-fields legend { padding: 0 6px; font-weight: 700; color: var(--blue-deep); }
+        .card-demo-fields .form-group { margin-bottom: 12px; }
+        .card-demo-fields .card-demo-note { grid-column: 1 / -1; color: var(--muted); font-size: 0.8rem; }
+
+        /* Ticket Estilo Recibo */
+        .ticket {
+            background: #000; color: #fff; padding: 32px; border-radius: 8px;
+            border-top: 8px solid var(--maize); position: relative;
+            -webkit-print-color-adjust: exact; print-color-adjust: exact;
+        }
+        .ticket-header { text-align: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px dashed #e6ddd0; }
+        .ticket-header h2 { font-family: var(--font-display); color: #fff; font-size: 1.8rem; }
+        .ticket-line { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
+        .ticket-line.total { font-size: 1.2rem; font-weight: 800; color: #fff; margin-top: 16px; padding-top: 16px; border-top: 2px solid #fff; }
+        .ticket-item { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; font-size: 0.85rem; }
+        .ticket-item small { display: block; color: #fff; }
+        @media print {
+            body * { visibility: hidden; }
+            #ticket-content, #ticket-content * { visibility: visible; }
+            #ticket-content { position: absolute; inset: 0 auto auto 0; width: 100%; border: 0; box-shadow: none; }
+            #ticket-modal, #ticket-modal .modal-content { position: static; display: block; width: 100%; max-width: none; max-height: none; padding: 0; overflow: visible; background: white; }
+            #ticket-modal .modal-close, #ticket-modal .modal-content > div:last-child { display: none !important; }
+        }
+
+        /* ==========================================================================
+           FOOTER Y EXTRAS
+           ========================================================================== */
+        .footer { background: #000; color: #fff; padding: 3rem 0; text-align: center; margin-top: 4rem; }
+        .footer p { color: #fff; font-size: 0.9rem; }
+
+        .location-section { padding: 3rem 0; }
+        .location-card {
+            display: grid; grid-template-columns: 0.8fr 1.2fr; overflow: hidden;
+            background: var(--white); border: 1px solid var(--line); border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+        .location-copy { padding: 32px; align-self: center; }
+        .location-copy h2 {
+            font-family: var(--font-display); color: var(--blue-deep);
+            font-size: clamp(1.6rem, 3vw, 2rem); margin-bottom: 8px;
+        }
+        .location-copy p { color: var(--muted); margin-bottom: 20px; }
+        .location-map { width: 100%; min-height: 320px; border: 0; }
+        
+        .whatsapp-float {
+            position: fixed; bottom: 24px; right: 24px; z-index: 90;
+            background: #25D366; color: white; padding: 16px 24px; border-radius: 999px;
+            font-weight: 700; display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4); transition: transform 0.2s;
+        }
+        .whatsapp-float:hover { transform: translateY(-4px); }
+
+        .toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: var(--ink); color: white; padding: 14px 28px; border-radius: 999px;
+            font-weight: 600; z-index: 400; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; text-align: center; padding: 2rem 0; }
+            .hero p { margin: 0 auto 2rem; }
+            .hero-visual { order: -1; }
+            .hero-badge { right: 16px; bottom: 16px; padding: 12px 16px; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .menu-heading { display: block; }
+            .menu-heading .section-subtitle { margin-bottom: 1.5rem; }
+            .cart-panel { max-width: 100%; border-radius: 24px 24px 0 0; top: auto; bottom: 0; height: 85vh; transform: translateY(100%); }
+            .cart-overlay.open .cart-panel { transform: translateY(0); }
+            .location-card { grid-template-columns: 1fr; }
+            .location-copy { padding: 24px; }
+            .location-map { min-height: 280px; }
+            .nav-actions { gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="topbar">
+        <div class="container topbar-inner">
+            <a href="#" class="brand">
+                <div class="brand-icon">
+                    <img src="imagenes/logo-pupuseria.png" alt="Ingredientes frescos para pupusas">
+                </div>
+                <div class="brand-text">
+                    <strong id="brand-name">Pupusería Deysi</strong>
+                    <small>Sabor Salvadoreño</small>
+                </div>
+            </a>
+            <div class="nav-actions">
+                <button class="icon-btn" id="theme-toggle" aria-label="Cambiar tema">🌙</button>
+                <button class="icon-btn" id="cart-toggle" aria-label="Abrir carrito">
+                    🛒
+                    <span class="cart-badge" id="cart-count">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO -->
+        <section class="container hero">
+            <div class="hero-content">
+                <div class="eyebrow">☀️ Hechas al momento</div>
+                <h1>Un pedacito de <span>El Salvador</span> en tu mesa.</h1>
+                <p>Pupusas calientitas, curtido recién hecho y salsa de la casa. Así se disfruta lo nuestro, con el sabor de hogar.</p>
+                <a href="#menu" class="btn btn-primary">Ver Menú y Ordenar ↓</a>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-img-wrapper">
+                    <video src="imagenes/video-portada.mp4" autoplay muted loop playsinline aria-label="Video de pupusas salvadoreñas"></video>
+                </div>
+                <div class="hero-badge">
+                    <strong>¡Qué chivo!</strong>
+                    <small>DE NUESTRA TIERRA</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENÚ -->
+        <section class="menu-section" id="menu">
+            <div class="container">
+                <div class="menu-heading">
+                    <div>
+                        <span class="menu-kicker">Tradición salvadoreña</span>
+                        <h2 class="section-title">Pupusas hechas al momento</h2>
+                        <p class="section-subtitle">Escoge tu combinación favorita de ingredientes de nuestra tierra.</p>
+                    </div>
+                </div>
+                
+                <div class="search-bar">
+                    <input type="search" id="menu-search" aria-label="Buscar pupusas o bebidas" placeholder="🔍 Busca loroco, café, soda...">
+                </div>
+
+                <div class="menu-heading">
+                    <div>
+                        <span class="menu-kicker">Arma tu combinación</span>
+                        <h2 class="section-title">Pupusa loca a tu gusto</h2>
+                        <p class="section-subtitle">Elige la masa y combina tus ingredientes favoritos.</p>
+                    </div>
+                </div>
+                <div class="menu-grid">
+                    <article class="product-card">
+                        <div class="card-img"><img src="imagenes/pupusa-loca.jpg" alt="Pupusa loca preparada con sus ingredientes" loading="lazy"></div>
+                        <div class="card-body">
+                            <h3>Pupusa loca</h3>
+                            <p>Personalízala con los ingredientes que más te gustan. El precio no cambia según la combinación.</p>
+                            <div class="product-options">
+                                <label class="option-label" for="pupusa-loca-masa">Elige tu masa</label>
+                                <select class="masa-select" id="pupusa-loca-masa">
+                                    <option value="Maíz">Maíz</option>
+                                    <option value="Arroz">Harina de arroz</option>
+                                </select>
+                                <span class="option-label" style="margin-top: 14px;">Elige al menos 2 ingredientes</span>
+                                <fieldset class="custom-ingredients" id="pupusa-loca-ingredients" aria-label="Ingredientes para la pupusa loca"></fieldset>
+                            </div>
+                            <p class="custom-price-note">Precio fijo: <strong id="pupusa-loca-price"></strong></p>
+                            <div class="card-footer">
+                                <span class="card-made">🌽 Preparada al momento</span>
+                                <button class="btn btn-primary btn-sm" type="button" onclick="addPupusaLocaToCart()">Agregar +</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="menu-grid" id="menu-container">
+                    <!-- Los productos se generan automáticamente con JavaScript -->
+                </div>
+
+                <div class="menu-heading" style="margin-top: 3rem;">
+                    <div>
+                        <span class="menu-kicker">Para acompañar</span>
+                        <h2 class="section-title">Bebidas</h2>
+                        <p class="section-subtitle">Precios sugeridos en dólares (USD); pueden variar según marca y tamaño.</p>
+                    </div>
+                </div>
+                <div class="menu-grid" id="drinks-container"></div>
+                <p class="section-subtitle" id="menu-empty" hidden>No encontramos productos con esa búsqueda. Prueba con otra.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- UBICACIÓN -->
+    <section class="location-section" aria-labelledby="location-title">
+        <div class="container">
+            <div class="location-card">
+                <div class="location-copy">
+                    <span class="menu-kicker">Visítanos</span>
+                    <h2 id="location-title">Encuéntranos aquí</h2>
+                    <p>Consulta la ubicación de Pupusería Daysi en el mapa.</p>
+                    <a class="btn btn-primary" href="https://maps.app.goo.gl/ELBD7C1yE8rraC9X9" target="_blank" rel="noopener noreferrer">
+                        📍 Abrir en Google Maps
+                    </a>
+                </div>
+                <iframe
+                    class="location-map"
+                    src="https://www.google.com/maps?q=13.8024664,-89.1699032&amp;z=17&amp;output=embed"
+                    title="Ubicación de Pupusería Daysi en Google Maps"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <h3 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 12px;">Pupusería Daysi</h3>
+            <p>Con sabor a El Salvador, en cada mordida. 🇸🇻</p>
+            <p style="margin-top: 20px; font-size: 0.8rem;">© 2026 Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- BOTÓN FLOTANTE WHATSAPP -->
+    <a href="https://wa.me/50376990067" class="whatsapp-float" id="whatsapp-btn" target="_blank" rel="noopener noreferrer">
+        <span style="font-size: 1.4rem;">💬</span> WhatsApp 7699-0067
+    </a>
+
+    <!-- CARRITO (PANEL LATERAL) -->
+    <div class="cart-overlay" id="cart-overlay">
+        <aside class="cart-panel">
+            <div class="cart-header">
+                <h2>Tu Pedido</h2>
+                <button class="icon-btn" id="close-cart">✕</button>
+            </div>
+            <div class="cart-items" id="cart-items-container">
+                <div class="cart-empty">
+                    <span>🌽</span>
+                    <p>Agrega pupusas o bebidas para empezar tu pedido.</p>
+                </div>
+            </div>
+            <div class="cart-footer">
+                <p class="cart-eta" id="cart-eta" aria-live="polite">Tiempo de entrega: calcula el estimado al abrir tu pedido.</p>
+                <button class="cart-eta-button" type="button" id="estimate-delivery-btn">Calcular o actualizar tiempo</button>
+                <div class="cart-total-row">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal">$0.00</span>
+                </div>
+                <div class="cart-total-row final">
+                    <span>Total</span>
+                    <span id="cart-total">$0.00</span>
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 16px;" id="checkout-btn">
+                    Confirmar Pedido →
+                </button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- MODAL DE CHECKOUT -->
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-checkout">✕</button>
+            <h2 class="section-title" style="font-size: 1.8rem; margin-bottom: 24px;">Datos de entrega</h2>
+            
+            <form id="checkout-form">
+                <div class="form-group">
+                    <label>Tu nombre</label>
+                    <input type="text" id="customer-name" required placeholder="Ej: María García">
+                </div>
+                <div class="form-group">
+                    <label>Teléfono</label>
+                    <input type="tel" id="customer-phone" required placeholder="Ej: 7000-0000">
+                </div>
+                <div class="form-group">
+                    <label for="fulfillment-method">¿Cómo quieres recibir tu pedido?</label>
+                    <select id="fulfillment-method">
+                        <option value="delivery" selected>Que te lo entreguemos</option>
+                        <option value="pickup">Pasar a recogerlo</option>
+                    </select>
+                </div>
+                <div class="form-group" id="delivery-address-group">
+                    <label for="customer-address">Dirección de entrega</label>
+                    <input type="text" id="customer-address" required autocomplete="street-address" placeholder="Colonia, calle, casa y referencias">
+                    <small style="display: block; margin-top: 8px; color: var(--muted);">Al abrir tu pedido puedes permitir el acceso a tu ubicación para estimar 30 minutos de preparación más el traslado aproximado. El cálculo se redondea a 5 minutos y tu ubicación no se guarda.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="order-schedule">¿Cuándo quieres recoger o recibir tu pedido?</label>
+                    <select id="order-schedule">
+                        <option value="asap" selected>Lo antes posible</option>
+                        <option value="scheduled">Programar fecha y hora</option>
+                    </select>
+                </div>
+                <div class="form-group" id="scheduled-time-group" hidden>
+                    <label for="scheduled-date">Día para recoger o recibir el pedido</label>
+                    <input type="date" id="scheduled-date">
+                    <label for="scheduled-time" style="margin-top: 12px;">Elige la hora</label>
+                    <select id="scheduled-time">
+                        <option value="">Primero elige una fecha</option>
+                    </select>
+                    <small id="current-local-time" style="display: block; margin-top: 8px; color: var(--muted);"></small>
+                </div>
+
+                <div style="margin: 8px 0 20px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper);">
+                    <div class="cart-total-row">
+                        <span>Subtotal</span>
+                        <span id="checkout-subtotal">$0.00</span>
+                    </div>
+                    <div class="cart-total-row" id="checkout-tip-row">
+                        <span>Propina para quien entrega</span>
+                        <span id="checkout-tip">$2.50</span>
+                    </div>
+                    <div class="cart-total-row final" style="margin-bottom: 0;">
+                        <span>Total a pagar</span>
+                        <span id="checkout-total">$0.00</span>
+                    </div>
+                    <small id="checkout-tip-note" style="display: block; margin-top: 8px; color: var(--muted);"></small>
+                    <small id="checkout-eta" style="display: block; margin-top: 8px; color: var(--blue-deep);" aria-live="polite" hidden></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="wants-salsa">¿Deseas salsa?</label>
+                    <select id="wants-salsa">
+                        <option value="Sí" selected>Sí</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="wants-curtido">¿Deseas curtido?</label>
+                    <select id="wants-curtido">
+                        <option value="Sí" selected>Sí</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Método de pago</label>
+                    <div class="payment-options">
+                        <label class="payment-option selected" onclick="selectPayment(this, 'Efectivo')">
+                            <input type="radio" name="payment" value="Efectivo" checked>
+                            <span class="payment-icon">💸</span>
+                            <div>
+                                <div style="font-weight: 700;">Efectivo</div>
+                                <div style="font-size: 0.8rem; color: var(--muted);">Pagas al recibir</div>
+                            </div>
+                        </label>
+                        <label class="payment-option" onclick="selectPayment(this, 'Tarjeta')">
+                            <input type="radio" name="payment" value="Tarjeta">
+                            <span class="payment-icon">💳</span>
+                            <div>
+                                <div style="font-weight: 700;">Tarjeta de crédito</div>
+                                <div style="font-size: 0.8rem; color: var(--muted);">Demostración, sin cobro</div>
+                            </div>
+                        </label>
+                    </div>
+                    <fieldset class="card-demo-fields" id="card-demo-fields" hidden>
+                        <legend>Datos de la tarjeta (solo demostración)</legend>
+                        <p class="card-demo-note">No escribas datos reales: este formulario no procesa, guarda ni envía información de tarjeta.</p>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label for="cardholder-name">Nombre en la tarjeta</label>
+                            <input type="text" id="cardholder-name" autocomplete="off" placeholder="Ej: María García">
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label for="card-number">Número de tarjeta</label>
+                            <input type="text" id="card-number" inputmode="numeric" maxlength="19" autocomplete="off" placeholder="0000 0000 0000 0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="card-expiry">Vencimiento</label>
+                            <input type="text" id="card-expiry" maxlength="5" autocomplete="off" placeholder="MM/AA">
+                        </div>
+                        <div class="form-group">
+                            <label for="card-cvv">CVV</label>
+                            <input type="text" id="card-cvv" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="123">
+                        </div>
+                    </fieldset>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 12px;">
+                    Crear Pedido y Ver Ticket
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DE TICKET -->
+    <div class="modal" id="ticket-modal">
+        <div class="modal-content" style="max-width: 400px; padding: 0; background: transparent; box-shadow: none;">
+            <div class="ticket" id="ticket-content">
+                <button class="modal-close" onclick="closeModal('ticket-modal')" style="background: white; top: -15px; right: -15px; border: 1px solid var(--line);">✕</button>
+                <div class="ticket-header">
+                    <div style="font-size: 2rem; margin-bottom: 8px;">🇸🇻</div>
+                    <h2 id="ticket-business">Pupusería Daysi</h2>
+                    <p style="font-size: 0.85rem; color: var(--muted); margin-top: 4px;">Comprobante de compra · ¡Gracias por tu pedido!</p>
+                </div>
+                <div style="margin-bottom: 16px; font-size: 0.85rem; color: var(--muted);">
+                    <div id="ticket-date"></div>
+                    <div id="ticket-customer"></div>
+                    <div id="ticket-address"></div>
+                    <div id="ticket-schedule"></div>
+                    <div id="ticket-estimate"></div>
+                    <div id="ticket-accompaniments"></div>
+                </div>
+                <div id="ticket-items" style="border-top: 1px dashed #ccc; padding-top: 16px;"></div>
+                <div class="ticket-line" style="margin-top: 16px;">
+                    <span>Subtotal</span>
+                    <span id="ticket-subtotal"></span>
+                </div>
+                <div class="ticket-line" id="ticket-tip-row">
+                    <span>Propina para quien entrega</span>
+                    <span id="ticket-tip"></span>
+                </div>
+                <div class="ticket-line total">
+                    <span>Total a pagar</span>
+                    <span id="ticket-total"></span>
+                </div>
+                <div style="margin-top: 20px; padding: 12px; background: #000; border: 1px solid #fff; border-radius: 8px; font-size: 0.85rem; color: #fff; text-align: center;" id="ticket-payment-note">
+                    Pago en efectivo al recibir.
+                </div>
+            </div>
+            <div style="display: flex; gap: 12px; margin-top: 16px;">
+                <button class="btn btn-secondary" style="flex: 1;" onclick="copyTicket()">📋 Copiar</button>
+                <button class="btn btn-secondary" style="flex: 1;" onclick="printTicket()">🖨️ Imprimir</button>
+                <button class="btn btn-primary" style="flex: 1;" onclick="shareTicket()">📤 Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast">Producto agregado al carrito</div>
+
+    <script>
+        /* ==========================================================================
+           🛠️ ZONA DE EDICIÓN FÁCIL: CAMBIA TUS DATOS, PRECIOS E IMÁGENES AQUÍ
+           ========================================================================== */
+        const CONFIG = {
+            negocio: {
+                nombre: "Pupusería Daysi",
+                whatsapp: "50376990067",
+                propinaEntrega: 2.50,
+            },
+            pupusaLoca: {
+                precio: 1.50,
+                ingredientes: ["Quesillo", "Frijol", "Chicharrón", "Loroco", "Pollo", "Camarón", "Ayote", "Chipilín", "Mora", "Jalapeño"],
+            },
+            // 📸 PARA CAMBIAR LAS IMÁGENES: Reemplaza las URL por tus propias fotos.
+            // Puedes usar rutas locales (ej: "imagenes/revuelta.jpg") o enlaces web.
+            menu: [
+                {
+                    id: "revuelta",
+                    nombre: "Revuelta",
+                    descripcion: "La favorita de siempre, rellena y doradita al comal.",
+                    ingredientes: ["Quesillo", "Frijol", "Chicharrón"],
+                    precio: 0.50,
+                    categoria: "pupusa",
+                    imagen: "imagenes/revuelta.png",
+                    tag: "La más pedida"
+                },
+                {
+                    id: "queso-loroco",
+                    nombre: "Queso con loroco",
+                    descripcion: "Quesillo fundido con el aroma único de la flor de loroco.",
+                    ingredientes: ["Quesillo", "Loroco"],
+                    precio: 0.80,
+                    categoria: "pupusa",
+                    imagen: "imagenes/pupusa-loroco.png",
+                    tag: "Especialidad"
+                },
+                {
+                    id: "frijol-queso",
+                    nombre: "Frijol con queso",
+                    descripcion: "Frijoles molidos suaves con quesillo derretido.",
+                    ingredientes: ["Frijol", "Quesillo"],
+                    precio: 0.50,
+                    categoria: "pupusa",
+                    imagen: "imagenes/frijol-queso.png",
+                    tag: null
+                },
+                {
+                    id: "queso",
+                    nombre: "Queso",
+                    descripcion: "Quesillo derretido dentro de una tortilla de maíz recién hecha.",
+                    ingredientes: ["Quesillo"],
+                    precio: 0.60,
+                    categoria: "pupusa",
+                    imagen: "imagenes/queso.png",
+                    tag: null
+                },
+                {
+                    id: "chicharron",
+                    nombre: "Chicharrón con queso",
+                    descripcion: "Chicharrón molido sazonado y mezclado con quesillo.",
+                    ingredientes: ["Chicharrón", "Quesillo"],
+                    precio: 0.60,
+                    categoria: "pupusa",
+                    imagen: "imagenes/pupusa-chicharron-queso.png",
+                    tag: null
+                },
+                {
+                    id: "pollo-queso",
+                    nombre: "Pollo con queso",
+                    descripcion: "Pollo sazonado y quesillo, una combinación sabrosa y jugosa.",
+                    ingredientes: ["Pollo", "Quesillo"],
+                    precio: 0.85,
+                    categoria: "pupusa",
+                    imagen: "imagenes/pupusa-pollo-queso.png",
+                    tag: "Especial"
+                },
+                {
+                    id: "camaron-queso",
+                    nombre: "Camarón con queso",
+                    descripcion: "Camarón sazonado con quesillo fundido.",
+                    ingredientes: ["Camarón", "Quesillo"],
+                    precio: 1.25,
+                    categoria: "pupusa",
+                    imagen: "imagenes/pupusa-camaron.png",
+                    tag: "Especial"
+                },
+                {
+                    id: "ayote-queso",
+                    nombre: "Ayote con queso",
+                    descripcion: "Ayote tierno con quesillo, una combinación casera.",
+                    ingredientes: ["Ayote", "Quesillo"],
+                    precio: 0.65,
+                    categoria: "pupusa",
+                    imagen: "imagenes/pupusa-ayote.png",
+                    tag: "Sabor de casa"
+                },
+                {
+                    id: "chipilin-queso",
+                    nombre: "Chipilín con queso",
+                    descripcion: "Chipilín aromático acompañado de quesillo fundido.",
+                    ingredientes: ["Chipilín", "Quesillo"],
+                    precio: 0.70,
+                    categoria: "pupusa",
+                    imagen: "imagenes/pupusa-chipilin-queso.png",
+                    tag: "Tradicional"
+                },
+                {
+                    id: "mora-queso",
+                    nombre: "Mora con queso",
+                    descripcion: "Hojas de mora con quesillo, preparada al estilo de casa.",
+                    ingredientes: ["Mora", "Quesillo"],
+                    precio: 0.70,
+                    categoria: "pupusa",
+                    imagen: "imagenes/pupusa-mora-queso.png",
+                    tag: null
+                },
+                {
+                    id: "jalapeno-queso",
+                    nombre: "Jalapeño con queso",
+                    descripcion: "Quesillo suave con un toque picantito de jalapeño.",
+                    ingredientes: ["Jalapeño", "Quesillo"],
+                    precio: 0.70,
+                    categoria: "pupusa",
+                    imagen: "imagenes/pupusa-jalapeno-queso.png",
+                    tag: "Toque picante"
+                },
+                {
+                    id: "soda-cola",
+                    nombre: "Soda de cola",
+                    descripcion: "Soda individual bien fría (12 oz).",
+                    ingredientes: ["12 oz", "Fría"],
+                    precio: 0.75,
+                    categoria: "bebida",
+                    imagen: "imagenes/soda-cola.png",
+                    ajusteImagen: "contain",
+                    icono: "🥤",
+                    tag: null
+                },
+                {
+                    id: "soda-naranja",
+                    nombre: "Soda de naranja",
+                    descripcion: "Soda individual sabor naranja (12 oz).",
+                    ingredientes: ["12 oz", "Fría"],
+                    precio: 0.75,
+                    categoria: "bebida",
+                    imagen: "imagenes/soda-naranja.png",
+                    ajusteImagen: "contain",
+                    icono: "🍊",
+                    tag: null
+                },
+                {
+                    id: "soda-limon",
+                    nombre: "Soda de limón",
+                    descripcion: "Soda individual sabor limón (12 oz).",
+                    ingredientes: ["12 oz", "Fría"],
+                    precio: 0.75,
+                    categoria: "bebida",
+                    imagen: "imagenes/soda-limon.png",
+                    ajusteImagen: "contain",
+                    icono: "🥤",
+                    tag: null
+                },
+                {
+                    id: "cafe-con-leche",
+                    nombre: "Café con leche",
+                    descripcion: "Café preparado al momento con leche (8 oz).",
+                    ingredientes: ["8 oz", "Caliente"],
+                    precio: 1.00,
+                    categoria: "bebida",
+                    imagen: "imagenes/cafe-con-leche.png",
+                    ajusteImagen: "contain",
+                    icono: "☕",
+                    tag: null
+                },
+                {
+                    id: "chocolate-caliente",
+                    nombre: "Chocolate caliente",
+                    descripcion: "Chocolate caliente preparado al momento (8 oz).",
+                    ingredientes: ["8 oz", "Caliente"],
+                    precio: 1.00,
+                    categoria: "bebida",
+                    imagen: "imagenes/chocolate-caliente.png",
+                    ajusteImagen: "contain",
+                    icono: "🍫",
+                    tag: null
+                },
+                {
+                    id: "fresco-tamarindo",
+                    nombre: "Jugo de tamarindo",
+                    descripcion: "Jugo fresco de tamarindo, preparado en casa (12 oz).",
+                    ingredientes: ["12 oz", "Natural"],
+                    precio: 0.35,
+                    categoria: "bebida",
+                    imagen: "imagenes/fresco-tamarindo.png",
+                    icono: "🧃",
+                    tag: "Fresco"
+                },
+                {
+                    id: "jugo-ensalada",
+                    nombre: "Jugo de ensalada",
+                    descripcion: "Jugo fresco de frutas al estilo salvadoreño (12 oz).",
+                    ingredientes: ["12 oz", "Frutas"],
+                    precio: 0.35,
+                    categoria: "bebida",
+                    imagen: "imagenes/jugo-ensalada.png",
+                    ajusteImagen: "contain",
+                    icono: "🍹",
+                    tag: "Fresco"
+                },
+                {
+                    id: "agua-embotellada",
+                    nombre: "Agua embotellada",
+                    descripcion: "Botella de agua pura (600 ml).",
+                    ingredientes: ["600 ml", "Fría"],
+                    precio: 0.50,
+                    categoria: "bebida",
+                    imagen: "imagenes/agua-embotellada.png",
+                    ajusteImagen: "contain",
+                    icono: "💧",
+                    tag: null
+                }
+            ]
+        };
+
+        /* ==========================================================================
+           LÓGICA DE LA APLICACIÓN (NO NECESITAS EDITAR ESTO, PERO PUEDES)
+           ========================================================================== */
+        
+        // Estado
+        let cart = new Map();
+        let currentTicketText = "";
+        let deliveryEstimateMinutes = null;
+        let deliveryEstimateRequest = null;
+
+        // Elementos del DOM
+        const menuContainer = document.getElementById('menu-container');
+        const drinksContainer = document.getElementById('drinks-container');
+        const menuEmptyEl = document.getElementById('menu-empty');
+        const cartOverlay = document.getElementById('cart-overlay');
+        const cartItemsContainer = document.getElementById('cart-items-container');
+        const cartCountEl = document.getElementById('cart-count');
+        const cartSubtotalEl = document.getElementById('cart-subtotal');
+        const cartTotalEl = document.getElementById('cart-total');
+        const toastEl = document.getElementById('toast');
+
+        // Inicialización
+        document.getElementById('brand-name').textContent = CONFIG.negocio.nombre;
+        document.getElementById('ticket-business').textContent = CONFIG.negocio.nombre;
+        renderPupusaLocaOptions();
+        renderMenu();
+        updateCartUI();
+
+        // Renderizar Menú
+        function renderMenu(filter = "") {
+            menuContainer.innerHTML = "";
+            drinksContainer.innerHTML = "";
+            const normalizedFilter = filter.trim().toLowerCase();
+            const filtered = CONFIG.menu.filter(item => 
+                item.nombre.toLowerCase().includes(normalizedFilter) || 
+                item.descripcion.toLowerCase().includes(normalizedFilter) ||
+                item.ingredientes.some(ingrediente => ingrediente.toLowerCase().includes(normalizedFilter))
+            );
+
+            if (filtered.length === 0) {
+                menuEmptyEl.hidden = false;
+                return;
+            }
+            menuEmptyEl.hidden = true;
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                const imageMarkup = item.imagen
+                    ? `<img src="${item.imagen}" class="${item.ajusteImagen === 'contain' ? 'image-contain' : ''} ${item.id === 'ayote-queso' ? 'image-ayote' : ''}" alt="${item.nombre}" loading="lazy">`
+                    : `<div class="card-img-placeholder" role="img" aria-label="Imagen de ${item.nombre} pendiente">${item.icono}</div>`;
+                const optionsMarkup = item.categoria === 'pupusa'
+                    ? `
+                        <div class="product-options">
+                            <label class="option-label" for="masa-${item.id}">Elige tu masa</label>
+                            <select class="masa-select" id="masa-${item.id}" data-item="${item.id}">
+                                <option value="Maíz">Maíz</option>
+                                <option value="Arroz">Harina de arroz</option>
+                            </select>
+                        </div>
+                        <div class="card-made">🌽 Preparada al momento</div>
+                    `
+                    : '';
+                card.innerHTML = `
+                    <div class="card-img">
+                        ${imageMarkup}
+                        ${item.tag ? `<span class="card-badge">${item.tag}</span>` : ''}
+                    </div>
+                    <div class="card-body">
+                        <h3>${item.nombre}</h3>
+                        <p>${item.descripcion}</p>
+                        <div class="ingredient-list" aria-label="Ingredientes">
+                            ${item.ingredientes.map(ingrediente => `<span class="ingredient-chip">${ingrediente}</span>`).join('')}
+                        </div>
+                        ${optionsMarkup}
+                        <div class="card-footer">
+                            <span class="price">$${item.precio.toFixed(2)}</span>
+                            <button class="btn btn-primary btn-sm" onclick="addToCart('${item.id}')">
+                                Agregar +
+                            </button>
+                        </div>
+                    </div>
+                `;
+                (item.categoria === 'bebida' ? drinksContainer : menuContainer).appendChild(card);
+            });
+        }
+
+        function renderPupusaLocaOptions() {
+            const ingredientsContainer = document.getElementById('pupusa-loca-ingredients');
+            ingredientsContainer.innerHTML = CONFIG.pupusaLoca.ingredientes.map((ingredient, index) => `
+                <label class="custom-ingredient">
+                    <input type="checkbox" name="pupusa-loca-ingredient" value="${ingredient}" id="pupusa-loca-ingredient-${index}">
+                    <span>${ingredient}</span>
+                </label>
+            `).join('');
+            document.getElementById('pupusa-loca-price').textContent = `$${CONFIG.pupusaLoca.precio.toFixed(2)}`;
+        }
+
+        // Búsqueda
+        document.getElementById('menu-search').addEventListener('input', (e) => {
+            renderMenu(e.target.value);
+        });
+
+        // Agregar al carrito
+        window.addToCart = function(itemId) {
+            const item = CONFIG.menu.find(i => i.id === itemId);
+            let key = itemId;
+            let options = [];
+
+            if (item.categoria === 'pupusa') {
+                const masa = document.querySelector(`select[data-item="${itemId}"]`).value;
+                options.push(`Masa: ${masa}`);
+                key += `|${masa}`;
+            }
+
+            const existingItem = cart.get(key);
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cart.set(key, { item: item, qty: 1, options: options });
+            }
+
+            updateCartUI();
+            showToast(`✅ ${item.nombre} agregada`);
+            
+            // Abrir carrito automáticamente en móvil al agregar
+            if (window.innerWidth <= 768) {
+                openCart();
+            }
+        };
+
+        window.addPupusaLocaToCart = function() {
+            const selectedIngredients = [...document.querySelectorAll('input[name="pupusa-loca-ingredient"]:checked')]
+                .map(input => input.value);
+            if (selectedIngredients.length < 2) {
+                showToast("⚠️ Elige al menos 2 ingredientes");
+                return;
+            }
+
+            const masa = document.getElementById('pupusa-loca-masa').value;
+            const item = {
+                id: 'pupusa-loca',
+                nombre: 'Pupusa loca',
+                precio: CONFIG.pupusaLoca.precio,
+                categoria: 'pupusa',
+                imagen: 'imagenes/pupusa-loca.jpg',
+            };
+            const options = [`Masa: ${masa}`, `Ingredientes: ${selectedIngredients.join(', ')}`];
+            const key = `pupusa-loca|${masa}|${selectedIngredients.join(',')}`;
+            const existingItem = cart.get(key);
+
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cart.set(key, { item, qty: 1, options });
+            }
+
+            updateCartUI();
+            showToast("✅ Pupusa loca agregada");
+            if (window.innerWidth <= 768) openCart();
+        };
+
+        // Actualizar UI del Carrito
+        function updateCartUI() {
+            let totalQty = 0;
+            let subtotal = 0;
+            cartItemsContainer.innerHTML = '';
+
+            if (cart.size === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="cart-empty">
+                        <span>🌽</span>
+                        <p>Agrega pupusas o bebidas para empezar tu pedido.</p>
+                    </div>`;
+            } else {
+                cart.forEach((data, key) => {
+                    totalQty += data.qty;
+                    subtotal += data.item.precio * data.qty;
+
+                    const div = document.createElement('div');
+                    div.className = 'cart-item';
+                    div.innerHTML = `
+                        ${data.item.imagen
+                            ? `<img src="${data.item.imagen}" class="cart-item-img${data.item.ajusteImagen === 'contain' ? ' image-contain' : ''}" alt="${data.item.nombre}">`
+                            : `<div class="cart-item-placeholder" role="img" aria-label="${data.item.nombre}">${data.item.icono}</div>`}
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${data.item.nombre}</div>
+                            ${data.options.length > 0 ? `<div class="cart-item-options">${data.options.join(' • ')}</div>` : ''}
+                            <div class="cart-item-controls">
+                                <button class="qty-btn" onclick="changeQty('${key}', -1)">−</button>
+                                <span style="font-weight: 700; min-width: 20px; text-align: center;">${data.qty}</span>
+                                <button class="qty-btn" onclick="changeQty('${key}', 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="cart-item-price">$${(data.item.precio * data.qty).toFixed(2)}</div>
+                    `;
+                    cartItemsContainer.appendChild(div);
+                });
+            }
+
+            cartCountEl.textContent = totalQty;
+            cartSubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+            cartTotalEl.textContent = `$${subtotal.toFixed(2)}`;
+        }
+
+        function renderDeliveryEstimate() {
+            const cartEtaEl = document.getElementById('cart-eta');
+            const checkoutEtaEl = document.getElementById('checkout-eta');
+            if (deliveryEstimateMinutes === null) {
+                cartEtaEl.textContent = 'Tiempo de entrega: calcula el estimado al abrir tu pedido.';
+                checkoutEtaEl.textContent = 'No se ha calculado el estimado de entrega.';
+                checkoutEtaEl.hidden = fulfillmentMethodEl.value !== 'delivery'
+                    || orderScheduleEl.value !== 'asap';
+                return;
+            }
+
+            const message = `⏱️ Tiempo estimado de entrega: ${deliveryEstimateMinutes} minutos (aproximado).`;
+            cartEtaEl.textContent = message;
+            checkoutEtaEl.textContent = message;
+            checkoutEtaEl.hidden = fulfillmentMethodEl.value !== 'delivery'
+                || orderScheduleEl.value !== 'asap';
+        }
+
+        async function requestDeliveryEstimate() {
+            const estimateButtonEl = document.getElementById('estimate-delivery-btn');
+            if (deliveryEstimateRequest) return deliveryEstimateRequest;
+
+            deliveryEstimateMinutes = null;
+            estimateButtonEl.disabled = true;
+            renderDeliveryEstimate();
+            document.getElementById('cart-eta').textContent = 'Calculando tiempo de entrega…';
+            deliveryEstimateRequest = getDeliveryEstimate()
+                .then(minutes => {
+                    deliveryEstimateMinutes = minutes;
+                    renderDeliveryEstimate();
+                })
+                .catch(error => {
+                    document.getElementById('cart-eta').textContent =
+                        `${error.message} Puedes actualizar el estimado o continuar sin él.`;
+                    const checkoutEtaEl = document.getElementById('checkout-eta');
+                    checkoutEtaEl.textContent = `${error.message} Puedes volver al carrito para intentarlo de nuevo.`;
+                    checkoutEtaEl.hidden = fulfillmentMethodEl.value !== 'delivery'
+                        || orderScheduleEl.value !== 'asap';
+                })
+                .finally(() => {
+                    estimateButtonEl.disabled = false;
+                    deliveryEstimateRequest = null;
+                });
+
+            return deliveryEstimateRequest;
+        }
+
+        function openCart() {
+            cartOverlay.classList.add('open');
+            renderDeliveryEstimate();
+            if (cart.size > 0 && deliveryEstimateMinutes === null) requestDeliveryEstimate();
+        }
+
+        // Cambiar cantidad
+        window.changeQty = function(key, delta) {
+            const data = cart.get(key);
+            if (!data) return;
+
+            data.qty += delta;
+            if (data.qty <= 0) {
+                cart.delete(key);
+            } else {
+                cart.set(key, data);
+            }
+            updateCartUI();
+        };
+
+        // Mostrar Toast
+        function showToast(msg) {
+            toastEl.textContent = msg;
+            toastEl.classList.add('show');
+            setTimeout(() => toastEl.classList.remove('show'), 2500);
+        }
+
+        // Controles del Carrito
+        document.getElementById('cart-toggle').addEventListener('click', openCart);
+        document.getElementById('estimate-delivery-btn').addEventListener('click', requestDeliveryEstimate);
+        document.getElementById('checkout-btn').addEventListener('click', renderDeliveryEstimate);
+        document.getElementById('close-cart').addEventListener('click', () => cartOverlay.classList.remove('open'));
+        cartOverlay.addEventListener('click', (e) => {
+            if (e.target === cartOverlay) cartOverlay.classList.remove('open');
+        });
+
+        // Checkout
+        document.getElementById('checkout-btn').addEventListener('click', () => {
+            if (cart.size === 0) {
+                showToast("⚠️ Agrega productos primero");
+                return;
+            }
+            cartOverlay.classList.remove('open');
+            updateCheckoutTotalSummary();
+            document.getElementById('checkout-modal').classList.add('open');
+        });
+
+        document.getElementById('close-checkout').addEventListener('click', () => {
+            document.getElementById('checkout-modal').classList.remove('open');
+        });
+
+        const orderScheduleEl = document.getElementById('order-schedule');
+        const scheduledTimeEl = document.getElementById('scheduled-time');
+        const scheduledDateEl = document.getElementById('scheduled-date');
+        const scheduledTimeGroupEl = document.getElementById('scheduled-time-group');
+        const currentLocalTimeEl = document.getElementById('current-local-time');
+        const fulfillmentMethodEl = document.getElementById('fulfillment-method');
+        const deliveryAddressEl = document.getElementById('customer-address');
+        const deliveryAddressGroupEl = document.getElementById('delivery-address-group');
+        const checkoutFormEl = document.getElementById('checkout-form');
+        const checkoutSubmitButtonEl = checkoutFormEl.querySelector('button[type="submit"]');
+        const restaurantLocation = { latitude: 13.8024664, longitude: -89.1699032 };
+        const preparationMinutes = 30;
+
+        function updateCheckoutTotalSummary() {
+            let subtotal = 0;
+            cart.forEach(data => {
+                subtotal += data.item.precio * data.qty;
+            });
+            const deliveryTip = fulfillmentMethodEl.value === 'delivery'
+                ? CONFIG.negocio.propinaEntrega
+                : 0;
+
+            document.getElementById('checkout-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('checkout-tip').textContent = `$${deliveryTip.toFixed(2)}`;
+            document.getElementById('checkout-tip-row').style.display = deliveryTip > 0 ? 'flex' : 'none';
+            document.getElementById('checkout-tip-note').textContent = deliveryTip > 0
+                ? `La entrega incluye una propina fija de $${deliveryTip.toFixed(2)}.`
+                : 'Al recoger en el local no se agrega propina de entrega.';
+            document.getElementById('checkout-total').textContent = `$${(subtotal + deliveryTip).toFixed(2)}`;
+        }
+
+        function updateAvailableOrderTimes() {
+            const now = new Date();
+            const localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+                .toISOString()
+                .slice(0, 10);
+
+            scheduledDateEl.min = localDate;
+            const selectedTime = scheduledTimeEl.value;
+            scheduledTimeEl.replaceChildren(new Option('Elige primero una fecha', ''));
+
+            if (scheduledDateEl.value) {
+                const [year, month, day] = scheduledDateEl.value.split('-').map(Number);
+                const isToday = scheduledDateEl.value === localDate;
+                const formatter = new Intl.DateTimeFormat('es-SV', { hour: 'numeric', minute: '2-digit' });
+                scheduledTimeEl.options[0].textContent = 'Elige una hora';
+
+                for (let minutes = 0; minutes < 24 * 60; minutes += 30) {
+                    const hour = Math.floor(minutes / 60);
+                    const minute = minutes % 60;
+                    const slotDate = new Date(year, month - 1, day, hour, minute);
+                    if (!isToday || slotDate > now) {
+                        const value = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+                        scheduledTimeEl.add(new Option(formatter.format(slotDate), value));
+                    }
+                }
+
+                if (scheduledTimeEl.options.length === 1) {
+                    scheduledTimeEl.options[0].textContent = 'No hay horarios disponibles para este día';
+                } else if ([...scheduledTimeEl.options].some(option => option.value === selectedTime)) {
+                    scheduledTimeEl.value = selectedTime;
+                }
+            }
+
+            currentLocalTimeEl.textContent =
+                `Hora actual de tu dispositivo: ${now.toLocaleString('es-SV', { dateStyle: 'short', timeStyle: 'short' })}`;
+        }
+
+        function updateScheduledTimeVisibility() {
+            const isScheduled = orderScheduleEl.value === 'scheduled';
+            scheduledTimeGroupEl.hidden = !isScheduled;
+            scheduledDateEl.required = isScheduled;
+            scheduledTimeEl.required = isScheduled;
+            if (isScheduled) updateAvailableOrderTimes();
+        }
+
+        function updateFulfillmentMethod() {
+            const isDelivery = fulfillmentMethodEl.value === 'delivery';
+            deliveryAddressGroupEl.hidden = !isDelivery;
+            deliveryAddressEl.required = isDelivery;
+            updateCheckoutTotalSummary();
+            renderDeliveryEstimate();
+        }
+
+        function getDeliveryEstimate() {
+            return new Promise((resolve, reject) => {
+                if (!navigator.geolocation) {
+                    reject(new Error('Tu navegador no permite calcular la ubicación.'));
+                    return;
+                }
+
+                navigator.geolocation.getCurrentPosition(position => {
+                    const { latitude, longitude } = position.coords;
+                    const toRadians = degrees => degrees * Math.PI / 180;
+                    const latitudeDifference = toRadians(latitude - restaurantLocation.latitude);
+                    const longitudeDifference = toRadians(longitude - restaurantLocation.longitude);
+                    const haversine = Math.sin(latitudeDifference / 2) ** 2
+                        + Math.cos(toRadians(restaurantLocation.latitude))
+                        * Math.cos(toRadians(latitude))
+                        * Math.sin(longitudeDifference / 2) ** 2;
+                    const distanceKm = 6371 * 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
+                    const travelMinutes = distanceKm / 20 * 60;
+                    const totalMinutes = preparationMinutes + travelMinutes;
+
+                    resolve(Math.max(preparationMinutes, Math.round(totalMinutes / 5) * 5));
+                }, error => {
+                    const errorMessages = {
+                        1: 'No diste permiso para acceder a tu ubicación.',
+                        2: 'No se pudo determinar tu ubicación.',
+                        3: 'Se agotó el tiempo para obtener tu ubicación.',
+                    };
+                    reject(new Error(errorMessages[error.code] || 'No se pudo obtener tu ubicación.'));
+                }, { enableHighAccuracy: false, maximumAge: 60000, timeout: 10000 });
+            });
+        }
+
+        orderScheduleEl.addEventListener('change', () => {
+            updateScheduledTimeVisibility();
+            renderDeliveryEstimate();
+        });
+        scheduledDateEl.addEventListener('change', updateAvailableOrderTimes);
+        fulfillmentMethodEl.addEventListener('change', updateFulfillmentMethod);
+        window.setInterval(() => {
+            if (orderScheduleEl.value === 'scheduled') updateAvailableOrderTimes();
+        }, 30000);
+        updateFulfillmentMethod();
+
+        // Selección de pago visual
+        window.selectPayment = function(el, method) {
+            document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected');
+            el.querySelector('input').checked = true;
+            document.getElementById('card-demo-fields').hidden = method !== 'Tarjeta';
+            if (method !== 'Tarjeta') {
+                document.querySelectorAll('#card-demo-fields input').forEach(input => input.value = '');
+            }
+        };
+
+        // Procesar Formulario
+        checkoutFormEl.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!checkoutFormEl.reportValidity()) return;
+
+            const name = document.getElementById('customer-name').value;
+            const phone = document.getElementById('customer-phone').value;
+            const fulfillmentMethod = fulfillmentMethodEl.value;
+            const address = fulfillmentMethod === 'delivery' ? deliveryAddressEl.value : '';
+            const wantsSalsa = document.getElementById('wants-salsa').value;
+            const wantsCurtido = document.getElementById('wants-curtido').value;
+            const scheduledTime = orderScheduleEl.value === 'scheduled'
+                ? `${scheduledDateEl.value}T${scheduledTimeEl.value}`
+                : '';
+            const payment = document.querySelector('input[name="payment"]:checked').value;
+
+            checkoutSubmitButtonEl.disabled = true;
+            try {
+                let estimate = null;
+                if (orderScheduleEl.value === 'asap') {
+                    if (fulfillmentMethod === 'delivery') {
+                        try {
+                            const minutes = deliveryEstimateMinutes ?? await getDeliveryEstimate();
+                            deliveryEstimateMinutes = minutes;
+                            estimate = { minutes, note: '' };
+                        } catch (error) {
+                            const continueWithoutLocation = window.confirm(
+                                `${error.message} ¿Quieres continuar con una estimación de preparación de ${preparationMinutes} minutos, sin contar el traslado?`
+                            );
+                            if (!continueWithoutLocation) return;
+                            estimate = {
+                                minutes: preparationMinutes,
+                                note: 'Traslado no estimado porque no se obtuvo la ubicación.',
+                            };
+                        }
+                    } else {
+                        estimate = { minutes: preparationMinutes, note: '' };
+                    }
+                }
+
+                generateTicket(name, phone, address, payment, wantsSalsa, wantsCurtido, scheduledTime, fulfillmentMethod, estimate);
+                document.getElementById('checkout-modal').classList.remove('open');
+                document.getElementById('ticket-modal').classList.add('open');
+
+                cart.clear();
+                updateCartUI();
+                checkoutFormEl.reset();
+                selectPayment(document.querySelector('input[name="payment"]:checked').closest('.payment-option'), 'Efectivo');
+                updateScheduledTimeVisibility();
+                updateFulfillmentMethod();
+            } finally {
+                checkoutSubmitButtonEl.disabled = false;
+            }
+        });
+
+        // Generar Ticket
+        function generateTicket(name, phone, address, payment, wantsSalsa, wantsCurtido, scheduledTime, fulfillmentMethod, estimate) {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('es-SV') + ' ' + now.toLocaleTimeString('es-SV', {hour: '2-digit', minute:'2-digit'});
+            const ticketId = 'PD-' + now.getTime().toString().slice(-8);
+
+            document.getElementById('ticket-date').textContent = `📅 ${dateStr} | Ticket: ${ticketId}`;
+            document.getElementById('ticket-customer').textContent = `👤 ${name} | 📞 ${phone}`;
+            const fulfillmentText = fulfillmentMethod === 'pickup' ? 'Recogerá en el local' : 'Entrega a domicilio';
+            document.getElementById('ticket-address').textContent = fulfillmentMethod === 'pickup'
+                ? `🏠 ${fulfillmentText}`
+                : `📍 ${fulfillmentText}: ${address}`;
+            const scheduleText = scheduledTime
+                ? new Date(scheduledTime).toLocaleString('es-SV', { dateStyle: 'short', timeStyle: 'short' })
+                : 'Lo antes posible';
+            const scheduleLabel = fulfillmentMethod === 'pickup' ? 'Recogida' : 'Entrega';
+            document.getElementById('ticket-schedule').textContent = `🕒 ${scheduleLabel}: ${scheduleText}`;
+            const estimateLabel = fulfillmentMethod === 'pickup'
+                ? 'Tiempo estimado de preparación'
+                : 'Tiempo estimado de entrega';
+            const estimateText = estimate
+                ? `⏱️ ${estimateLabel}: ${estimate.minutes} minutos.${estimate.note ? ` ${estimate.note}` : ''}`
+                : '';
+            document.getElementById('ticket-estimate').textContent = estimateText;
+            const salsaPreference = wantsSalsa === 'Sí' ? 'Sí' : 'No quiere salsa';
+            const curtidoPreference = wantsCurtido === 'Sí' ? 'Sí' : 'No quiere curtido';
+            document.getElementById('ticket-accompaniments').textContent =
+                `🌶️ Salsa: ${salsaPreference} | 🥬 Curtido: ${curtidoPreference}`;
+            
+            const itemsContainer = document.getElementById('ticket-items');
+            itemsContainer.innerHTML = '';
+            let subtotal = 0;
+            let textLines = [`COMPROBANTE DE COMPRA: ${CONFIG.negocio.nombre}`, `Ticket: ${ticketId}`, `Fecha: ${dateStr}`, `Cliente: ${name}`, `Tel: ${phone}`, `${fulfillmentText}${address ? `: ${address}` : ''}`, `${scheduleLabel}: ${scheduleText}`, `Salsa: ${salsaPreference}`, `Curtido: ${curtidoPreference}`, `---`, `PRODUCTOS`];
+            if (estimateText) textLines.splice(7, 0, estimateText.replace('⏱️ ', ''));
+
+            cart.forEach((data) => {
+                const lineTotal = data.item.precio * data.qty;
+                subtotal += lineTotal;
+                
+                const div = document.createElement('div');
+                div.className = 'ticket-item';
+                const itemDescription = data.options.join(', ') || (data.item.categoria === 'pupusa' ? 'Tradicional' : 'Bebida');
+                div.innerHTML = `
+                    <span>${data.qty} × ${data.item.nombre}<small>${itemDescription}</small></span>
+                    <span>$${data.item.precio.toFixed(2)} c/u<br><strong>$${lineTotal.toFixed(2)}</strong></span>
+                `;
+                itemsContainer.appendChild(div);
+                
+                textLines.push(`${data.qty} x ${data.item.nombre} (${itemDescription}) - $${lineTotal.toFixed(2)} ($${data.item.precio.toFixed(2)} c/u)`);
+            });
+
+            const deliveryTip = fulfillmentMethod === 'delivery' ? CONFIG.negocio.propinaEntrega : 0;
+            const total = subtotal + deliveryTip;
+            document.getElementById('ticket-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('ticket-tip-row').style.display = deliveryTip > 0 ? 'flex' : 'none';
+            document.getElementById('ticket-tip').textContent = `$${deliveryTip.toFixed(2)}`;
+            document.getElementById('ticket-total').textContent = `$${total.toFixed(2)}`;
+            textLines.push(`---`, `Subtotal: $${subtotal.toFixed(2)}`);
+            if (deliveryTip > 0) textLines.push(`Propina para quien entrega: $${deliveryTip.toFixed(2)}`);
+            textLines.push(`TOTAL: $${total.toFixed(2)}`, `Pago: ${payment}`);
+
+            if (payment === 'Tarjeta') {
+                document.getElementById('ticket-payment-note').textContent =
+                    `💳 Pago con tarjeta .${deliveryTip > 0 ? ` Incluye $${deliveryTip.toFixed(2)} de propina para quien entrega.` : ''}`;
+                textLines.push("Pago con tarjeta (demostración; no se procesó ningún cobro)");
+            } else {
+                document.getElementById('ticket-payment-note').textContent =
+                    `💵 Pago en efectivo al recibir el pedido.${deliveryTip > 0 ? ` Incluye $${deliveryTip.toFixed(2)} de propina para quien entrega.` : ''}`;
+            }
+
+            currentTicketText = textLines.join('\n');
+        }
+
+        // Funciones del Ticket
+        window.closeModal = function(id) {
+            document.getElementById(id).classList.remove('open');
+        };
+
+        window.copyTicket = function() {
+            navigator.clipboard.writeText(currentTicketText)
+                .then(() => showToast("📋 Ticket copiado al portapapeles"))
+                .catch(() => showToast("No se pudo copiar. Prueba con Imprimir."));
+        };
+
+        window.printTicket = function() {
+            window.print();
+        };
+
+        window.shareTicket = function() {
+            const msg = encodeURIComponent(currentTicketText);
+            window.open(`https://wa.me/${CONFIG.negocio.whatsapp}?text=${msg}`, '_blank');
+        };
+
+        // Botón WhatsApp General
+        document.getElementById('whatsapp-btn').addEventListener('click', (e) => {
+            let msg = `Hola ${CONFIG.negocio.nombre}, quiero hacer un pedido`;
+            let total = 0;
+            if (cart.size > 0) {
+                msg += ":\n";
+                cart.forEach(data => {
+                    msg += `- ${data.qty}x ${data.item.nombre}${data.options.length ? ` (${data.options.join(' · ')})` : ''} ($${(data.item.precio * data.qty).toFixed(2)})\n`;
+                    total += data.item.precio * data.qty;
+                });
+                msg += `\n*Total: $${total.toFixed(2)}*`;
+            }
+            e.currentTarget.href =
+                `https://wa.me/${CONFIG.negocio.whatsapp}?text=${encodeURIComponent(msg)}`;
+        });
+
+        // Tema Oscuro/Claro
+        const themeToggle = document.getElementById('theme-toggle');
+        let isDark = localStorage.getItem('theme') !== 'light';
+        
+        function applyTheme() {
+            if (isDark) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeToggle.textContent = '🌙';
+            }
+        }
+        applyTheme();
+
+        themeToggle.addEventListener('click', () => {
+            isDark = !isDark;
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            applyTheme();
+        });
+
+    </script>
+</body>
+</html>
